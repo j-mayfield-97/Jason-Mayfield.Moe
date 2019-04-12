@@ -6,7 +6,7 @@
 ~Click on the Menu Button For Navigation~
 </p>
 
-<p class="lead"> This site is very early in development. For now I will explain the tools and the choices I've
+<p class="lead"> This site is very early in development. For now I will explain the tools and the choices I've made
 for this site. To put it simply I abhor <code>Javascript</code>, I had a class project with it once and I
 had a truly miserable time. So my goal on future web development is to use as minimal an amount of <code>JS</code> 
 as possible. I also had an interest in <code>Lua</code>. I've wanted to use it on projects in the past but I

@@ -5,7 +5,8 @@ function main.index(page)
 end
 
 function main.test(page)
-    page:render('test')
+    page.theme = 'nav_game2d'
+    page:render('test', {running =  "hello"})
 end
 
 function main.about(page)
