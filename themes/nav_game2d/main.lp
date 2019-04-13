@@ -55,7 +55,7 @@
         <canvas id = "canvas" width="100" height="100" style="border:5px solid #000000; background-color: #f1f1f1;">
         </canvas>
 
-        <p class="result">0</p>
+        <p class="result" id ="input">0</p>
         <p><button id = "but">+1</button></p>
 
         <script>
@@ -67,6 +67,10 @@
           ctxs.fillStyle = "#000000"; 
           return}
           //rsq();
+          //function KeyPress(e) {
+          //  var evtobj = window.event? event : e
+          //  if (evtobj.keyCode == 90 && evtobj.ctrlKey) alert("Ctrl+z");}
+          //document.onkeydown = KeyPress;
         </script>
       
      <?lua@client
@@ -124,18 +128,44 @@
           if canvas.height < 100 then canvas.height = 100 end
         end
 
-        log = window.document:getElementById('para')
-        log.textContent = "log :"
+        wKeyDown = false
+        aKeyDown = false
+        sKeyDown = false
+        dKeyDown = false
 
-        function inputFunc(e) 
-          input = e.keyCode
+        function downKeys(e)
+          if e.keyCode == 87 then wKeyDown = true end
+          if e.keyCode == 65 then aKeyDown = true end
+          if e.keyCode == 68 then dKeyDown = true end
+          if e.keyCode == 83 then sKeyDown = true end
         end
+
+        function upKeys(e)
+          if e.keyCode == 87 then wKeyDown = false end
+          if e.keyCode == 65 then aKeyDown = false end
+          if e.keyCode == 68 then dKeyDown = false end
+          if e.keyCode == 83 then sKeyDown = false end
+        end
+
+        local map = {
+          pipe1 = {x = 1, y = 1, w = 1, col = "#00FF00"},
+          pipe2 = {x = 1, y = 1, w = 1, col = "#00FF00"},
+          pipe3 = {x = 1, y = 1, w = 1, col = "#00FF00"},
+          pipe4 = {x = 1, y = 1, w = 1, col = "#00FF00"},
+        }
 
         local plumber = { 
         x = canvas.width / 2,
         y = canvas.height / 2,
         h = canvas.height / 10,
-        w = canvas.width / 10
+        w = canvas.width / 15,
+        vx = 0,
+        vy = 0,
+        ax = 0,
+        ay = 0,
+        maxspeed = 7,
+        crouch = false,
+        jumps = 2
         } 
 
         function instructions()
@@ -147,6 +177,15 @@
 
         --char should happen every frame and not leave frame
         function charUpdate()
+          plumber.vx = plumber.ax + plumber.vx
+          plumber.vy = plumber.ay + plumber.vy
+          if plumber.vx > plumber.maxspeed then plumber.vx = plumber.maxspeed end
+          if plumber.vx < plumber.maxspeed*-1 then plumber.vx = plumber.maxspeed*-1 end
+          if plumber.vy > plumber.maxspeed then plumber.vy = plumber.maxspeed end
+          plumber.x = plumber.x + plumber.vx
+          plumber.y = plumber.y + plumber.vy
+
+          --char size scale
           if canvas.height / 10 < 10 then
             plumber.h = 10
           else
@@ -155,33 +194,56 @@
           if plumber.w < 10 then
             plumber.w = 10
           else 
-            plumber.w = canvas.width / 10
+            plumber.w = canvas.width / 15
           end
-
-          if plumber.y < 0 then
-            plumber.y = 0
+          --left border
+          if plumber.x < 0 then
+            plumber.x = 0
           end
+          --right border
           if plumber.x + plumber.w > canvas.width then
             plumber.x = canvas.width - plumber.w
           end
 
-          --kinda garvity, only increase y component if with in borders
-          if plumber.y + plumber.h + 5 < canvas.height then
-            plumber.y = plumber.y + 5
+          --bottom border hits the floor and resets double jump
+          if plumber.y + plumber.h + 1 > canvas.height then
+            plumber.y = canvas.height - (plumber.h + 1)
+            plumber.ay = 0
+            plumber.jumps = 2
           end
+        
         end
 
-        function keyUpdate()
-          if input % 2 == 0 then
-            plumber.x = plumber.x - 5
+        function moveChar()
+        --if 'a' then acc left
+          if aKeyDown then
+            plumber.ax = -1
+        --id 'd' then acc right
+          elseif dKeyDown then
+            plumber.ax = 1
           else 
-            plumber.x = plumber.x + 5
+            --bring the player to a halt
+            plumber.ax = plumber.ax / 4
+            if math.abs(plumber.ax) < 0.0001 then 
+              plumber.vx = 0
+              plumber.ax = 0
+            end
           end
 
+          if wKeyDown and plumber.jumps > 0 then
+            plumber.ay = -(5)
+            plumber.vy = -(plumber.h / 4)
+            plumber.jumps = plumber.jumps - 1
+          else 
+          --gravity
+            plumber.ay = 1
+          end
         end
 
         function contUpdate()
             resize_canvas()
+            window.document:getElementById("input").textContent = input
+            moveChar()
             charUpdate()
             ctx:clearRect(0, 0, canvas.width, canvas.height)
             window:drawsq(plumber.x, plumber.y, plumber.w, plumber.h, "#FF00FF")
@@ -193,7 +255,7 @@
         end
 
         function set_interval()
-            window:setInterval(contUpdate, 1)
+            window:setInterval(contUpdate, 25)
         end
 
         --game will start on click
@@ -219,12 +281,11 @@
 
           canvas:addEventListener('click', game_start)
 
-          window.document:addEventListener("keydown", inputFunc)
-          window.document:addEventListener("keydown", set_time)
+          window.document:addEventListener("keydown", downKeys)
+          window.document:addEventListener("keyup", upKeys)
           set_interval()
         end
 
-        window:drawsq(50, 50, 50, 50, "#FF0000")
         init()
       ?>
 
