@@ -4,6 +4,10 @@ function main.index(page)
     page:render('index')
 end
 
+function main.site(page)
+    page:render('site')
+end
+
 function main.test(page)
     page.theme = 'nav_game2d'
     page:render('test', {running =  "hello"})

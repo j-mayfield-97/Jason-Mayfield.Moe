@@ -31,13 +31,13 @@
         <div id="mySidenav" class="sidenav">
           <a href="#" class="closebtn" >&times;</a>
           <a href="/?r=main">Landing</a>
-          <a href="/?r=main/about">About</a>
+          <a href="/?r=main/about">About Me</a>
+          <a href="/?r=main/site">Web Dev & Tools</a>
           <a href="/?r=main/resume">Resume</a>
           <a href="/?r=main/projects">Projects</a>
           <a href="/?r=main/gify">Gify</a>
           <a href="/?r=main/contact">Contact</a>
           <a href="/?r=main/test">Test</a>
-          <a href="/?r=main/coming">COMING SOON</a>
         </div>
          <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
           <span id="openNavBut" style="font-size:30px;cursor:pointer;padding-right: 120px" >&#9776; Menu</span>

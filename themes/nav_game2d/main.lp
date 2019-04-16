@@ -31,13 +31,13 @@
         <div id="mySidenav" class="sidenav">
           <a href="#" class="closebtn" >&times;</a>
           <a href="/?r=main">Landing</a>
-          <a href="/?r=main/about">About</a>
+          <a href="/?r=main/about">About Me</a>
           <a href="/?r=main/resume">Resume</a>
           <a href="/?r=main/projects">Projects</a>
+          <a href="/?r=main/site">Web Dev & Tools</a>
           <a href="/?r=main/gify">Gify</a>
           <a href="/?r=main/contact">Contact</a>
           <a href="/?r=main/test">Test</a>
-          <a href="/?r=main/coming">COMING SOON</a>
         </div>
          <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
           <span id="openNavBut" style="font-size:30px;cursor:pointer;padding-right: 120px" >&#9776; Menu</span>
@@ -119,13 +119,20 @@
 
         local canvas = window.document:getElementById("canvas")
         local ctx = canvas:getContext("2d")
+        --we dont want to do floating point calcs everytime so have sizes change only when window changed
+
+        local resized = true
 
         function resize_canvas() 
-          canvas.width = window.innerWidth - 300
-          canvas.height = window.innerHeight - 200
-          --minimum size is 100x100 px
-          if canvas.width < 100 then canvas.width = 100 end
-          if canvas.height < 100 then canvas.height = 100 end
+        
+          canvas.width = window.innerWidth * (7/10)
+          canvas.height = window.innerHeight * (7/10)
+          canvas.alignment = "center"
+          --minimum size is 300x300 px
+          if canvas.width < 300 then canvas.width = 300 end
+          if canvas.height < 300 then canvas.height = 300 end
+
+          resized = true
         end
 
         wKeyDown = false
@@ -148,35 +155,59 @@
         end
 
         local map = {
-          pipe1 = {x = 1, y = 1, w = 1, col = "#00FF00"},
-          pipe2 = {x = 1, y = 1, w = 1, col = "#00FF00"},
-          pipe3 = {x = 1, y = 1, w = 1, col = "#00FF00"},
-          pipe4 = {x = 1, y = 1, w = 1, col = "#00FF00"},
+          pipes = {
+            a = {ord = 1, x = 0, y = 1, w = 1, h = 1, col = "#00FF00", link="me"},
+            b = {ord = 2, x = 1, y = 1, w = 1, h = 1, col = "#00FF00", link="web"},
+            c = {ord = 3, x = 2, y = 1, w = 1, h = 1, col = "#00FF00", link="resume"},
+            d = {ord = 4, x = 3, y = 1, w = 1, h = 1, col = "#00FF00", link="projects"},
+            e = {ord = 5, x = 4, y = 1, w = 1, h = 1, col = "#00FF00", link="contact"}
+          },
+          blocks = {
+            a = {ord = 1, x = 1, y = 1, w = 1, h = 1, col = "#FFFF00"},
+            b = {ord = 2, x = 1, y = 1, w = 1, h = 1, col = "#FFFF00"}
+          }
         }
 
         local plumber = { 
-        x = canvas.width / 2,
-        y = canvas.height / 2,
-        h = canvas.height / 10,
-        w = canvas.width / 15,
-        vx = 0,
-        vy = 0,
-        ax = 0,
-        ay = 0,
-        maxspeed = 7,
-        crouch = false,
-        jumps = 2
+          x = canvas.width / 2,
+          y = canvas.height / 2,
+          h = canvas.height / 10,
+          w = canvas.width / 15,
+          vx = 0,
+          vy = 0,
+          ax = 0,
+          ay = 0,
+          maxspeed = 7,
+          crouch = false,
+          jumps = 2
         } 
 
-        function instructions()
-          ctx.font = "20px Arial"
-          ctx:fillText("click", 10,15)
-          ctx:fillText("to", 10,35)
-          ctx:fillText("start", 10,55)
+        function mapping_func()
+          --text is set here from a previous function
+          ctx.font = "30px Arial"
+          --loop through pipes and place them out and draw
+          for k, v in pairs(map.pipes) do 
+            if resized then 
+              v.w = canvas.width / 20
+              v.h = canvas.height / 4
+              v.x = (canvas.width * v.ord ) / 6
+              v.y = canvas.height - v.h
+            end
+            window:drawsq(v.x, v.y, v.w, v.h, v.col)
+          end
+          print(map.pipes.a.x, map.pipes.b.x, map.pipes.c.x, map.pipes.d.x, map.pipes.e.x)
+          for k, v in pairs(map.blocks) do 
+            v.w = canvas.width / 20
+            v.h = v.w
+            v.x = canvas.width / 2
+            v.y = canvas.height / 2
+            window:drawsq(v.x, v.y, v.w, v.h, v.col)
+          end
         end
 
         --char should happen every frame and not leave frame
         function charUpdate()
+        --movement calculations
           plumber.vx = plumber.ax + plumber.vx
           plumber.vy = plumber.ay + plumber.vy
           if plumber.vx > plumber.maxspeed then plumber.vx = plumber.maxspeed end
@@ -185,16 +216,22 @@
           plumber.x = plumber.x + plumber.vx
           plumber.y = plumber.y + plumber.vy
 
+          if resized then
           --char size scale
-          if canvas.height / 10 < 10 then
-            plumber.h = 10
-          else
-            plumber.h = canvas.height / 10
-          end
-          if plumber.w < 10 then
-            plumber.w = 10
-          else 
-            plumber.w = canvas.width / 15
+            if canvas.height / 10 < 10 then
+              plumber.h = 10
+            else
+              plumber.h = canvas.height / 10
+              --crouch
+              if plumber.crouch then 
+                plumber.h = canvas.height / 20 
+              end
+            end
+            if plumber.w < 10 then
+              plumber.w = 10
+            else 
+              plumber.w = canvas.width / 20
+            end
           end
           --left border
           if plumber.x < 0 then
@@ -230,6 +267,13 @@
             end
           end
 
+          --crouch
+          if sKeyDown then 
+            plumber.crouch = true
+          else
+            plumber.crouch = false
+          end
+
           if wKeyDown and plumber.jumps > 0 then
             plumber.ay = -(5)
             plumber.vy = -(plumber.h / 4)
@@ -241,12 +285,12 @@
         end
 
         function contUpdate()
-            resize_canvas()
             window.document:getElementById("input").textContent = input
             moveChar()
             charUpdate()
             ctx:clearRect(0, 0, canvas.width, canvas.height)
             window:drawsq(plumber.x, plumber.y, plumber.w, plumber.h, "#FF00FF")
+            mapping_func()
             ctx:fillText("Move with wasd", 10, 15)
         end
 
@@ -274,16 +318,16 @@
         end
 
         function init()
-          instructions()
           ob:addEventListener('click', openNav)
           cb:addEventListener('click', closeNav)
-          window:addEventListener("resize", contUpdate)
+          window:addEventListener("resize", resize_canvas)
 
           canvas:addEventListener('click', game_start)
 
           window.document:addEventListener("keydown", downKeys)
           window.document:addEventListener("keyup", upKeys)
           set_interval()
+          resized = false
         end
 
         init()
