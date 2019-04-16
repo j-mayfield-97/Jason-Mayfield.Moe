@@ -2,4 +2,4 @@
 
 
 
-<div id="log"> <p id="para">para:</p> </div>
+<div id="log">click the square to start</div>
