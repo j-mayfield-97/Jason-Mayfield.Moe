@@ -5,8 +5,9 @@
 
 <p class="lead">
 This page is temporary unitl development is done on what it should be.
-<iframe src="https://giphy.com/embed/126yC7E3sPC276" width="480" height="320" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/stickers/welcome-126yC7E3sPC276">via GIPHY</a></p>
 </p>
+<iframe src="https://giphy.com/embed/126yC7E3sPC276" width="480" height="320" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/stickers/welcome-126yC7E3sPC276">via GIPHY</a></p>
+
 
 <p>
 <h2>Update:</h2> Though the development of this site has been a fun challenge for me, I would not recommend that

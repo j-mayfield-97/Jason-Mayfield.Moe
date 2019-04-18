@@ -9,8 +9,6 @@
     <meta name="author" content="Jason Mayfield">
     <link rel="shortcut icon" href="../../assets/ico/icon.png">
 
-    <title><%=page.title%></title>
-
     <!-- Bootstrap core CSS -->
     <link href="<%=page.theme_path%>/css/bootstrap.css" rel = "stylesheet">
 
@@ -41,22 +39,17 @@
         </div>
          <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
           <span id="openNavBut" style="font-size:30px;cursor:pointer;padding-right: 120px" >&#9776; Menu</span>
-          <h1> NAV GAME TEST </h1> 
            
         </nav>
 
         <div class="page-header" id="heading">
-          <h1>Testing Page!</h1>
           <p class="lead">
-            Testing Page where I can practice with things I wanna mess with.
+            Navigate with Menu Button in the corner OR navigate with the game if you have a keyboard.
           </p>
         </div>
 
         <canvas id = "canvas" width="100" height="100" style="border:5px solid #000000; background-color: #f1f1f1;">
         </canvas>
-
-        <p class="result" id ="input">0</p>
-        <p><button id = "but">+1</button></p>
 
         <script>
           function drawsq(x, y, w, h, col){
@@ -66,40 +59,11 @@
           ctxs.fillRect(x, y, w, h);
           ctxs.fillStyle = "#000000"; 
           return}
-          //rsq();
-          //function KeyPress(e) {
-          //  var evtobj = window.event? event : e
-          //  if (evtobj.keyCode == 90 && evtobj.ctrlKey) alert("Ctrl+z");}
-          //document.onkeydown = KeyPress;
         </script>
       
      <?lua@client
-        local counter = 0
         local input = 0
         
-        local ui = {
-          button1 = window.document:getElementById('but'),
-          result = window.document:querySelector('.result'),
-        }
-        
-        function keyUpdateUI ()
-          ui.result.textContent = counter
-        end
-        
-        function increment ()
-          counter = counter + 1
-          print(counter)
-          keyUpdateUI()
-        end
-        
-        function inity () 
-          keyUpdateUI()
-          ui.button1:addEventListener('click', increment)
-        end
-        
-        print("running counter script")
-
-        inity()
         running = false
         print("running this script")
         print(running)
@@ -156,11 +120,11 @@
 
         local map = {
           pipes = {
-            a = {ord = 1, x = 0, y = 1, w = 1, h = 1, col = "#00FF00", link="me"},
-            b = {ord = 2, x = 1, y = 1, w = 1, h = 1, col = "#00FF00", link="web"},
-            c = {ord = 3, x = 2, y = 1, w = 1, h = 1, col = "#00FF00", link="resume"},
-            d = {ord = 4, x = 3, y = 1, w = 1, h = 1, col = "#00FF00", link="projects"},
-            e = {ord = 5, x = 4, y = 1, w = 1, h = 1, col = "#00FF00", link="contact"}
+            a = {ord = 1, x = 0, y = 1, w = 1, h = 1, col = "#00FF00", link="/?r=main/resume", text="resume"},
+            b = {ord = 2, x = 1, y = 1, w = 1, h = 1, col = "#00DF00", link="/?r=main/about", text="about"},
+            c = {ord = 3, x = 2, y = 1, w = 1, h = 1, col = "#00BF00", link="/?r=main/site", text="site"},
+            d = {ord = 4, x = 3, y = 1, w = 1, h = 1, col = "#009F00", link="/?r=main/contact", text="contact"},
+            e = {ord = 5, x = 4, y = 1, w = 1, h = 1, col = "#007F00", link="/?r=main/projects", text="projects"}
           },
           blocks = {
             a = {ord = 1, x = 1, y = 1, w = 1, h = 1, col = "#FFFF00"},
@@ -179,40 +143,93 @@
           ay = 0,
           maxspeed = 7,
           crouch = false,
-          jumps = 2
+          jumps = 2,
+          leftObs = false, lwall = 0,
+          rightObs = false, rwall = 0,
+          upObs = false, uwall = 0,
+          botObs = false, dwall = 0,
+          botHeight = canvas.height
         } 
 
         function mapping_func()
           --text is set here from a previous function
-          ctx.font = "30px Arial"
-          --loop through pipes and place them out and draw
-          for k, v in pairs(map.pipes) do 
-            if resized then 
-              v.w = canvas.width / 20
-              v.h = canvas.height / 4
-              v.x = (canvas.width * v.ord ) / 6
-              v.y = canvas.height - v.h
-            end
-            window:drawsq(v.x, v.y, v.w, v.h, v.col)
-          end
-          print(map.pipes.a.x, map.pipes.b.x, map.pipes.c.x, map.pipes.d.x, map.pipes.e.x)
-          for k, v in pairs(map.blocks) do 
+          ctx.font = "25px Arial"
+          --print(map.pipes.a.x, map.pipes.b.x, map.pipes.c.x, map.pipes.d.x, map.pipes.e.x)
+          --[[for k, v in pairs(map.blocks) do 
             v.w = canvas.width / 20
             v.h = v.w
             v.x = canvas.width / 2
             v.y = canvas.height / 2
             window:drawsq(v.x, v.y, v.w, v.h, v.col)
+            ctx:fillText("coin", v.x, v.y)
+          end ]]--
+          --loop through pipes and place them out and draw
+          for k, v in pairs(map.pipes) do 
+            if resized then 
+              v.w = canvas.width / 20
+              v.h = canvas.height / 5
+              v.x = (canvas.width * v.ord ) / 6
+              v.y = canvas.height - v.h
+            end
+            window:drawsq(v.x, v.y, v.w, v.h, v.col)
+            ctx:fillText(v.text, v.x - 20 , v.y - (26 * ((v.ord % 2)+1)))
           end
+          
         end
+
+        function collision()
+          for k,v in pairs(map.pipes) do
+
+            -- right of plumber passes pipe's left AND left of plumber passes pipe right
+            if ((plumber.x + plumber.w  > v.x)and(plumber.x < v.x + v.w)) then 
+            -- bottom of plbr is lower than pipe block 
+              if plumber.y + (plumber.h/2) > v.y then 
+
+                if plumber.vx > 0 then 
+                  plumber.rightObs = true
+                  plumber.x = v.x - plumber.w
+                  plumber.ax = 0
+                  plumber.vx = -plumber.vx / 2
+                elseif plumber.vx < 0 then
+                  plumber.leftObs = true 
+                  plumber.x = v.x + v.w
+                  plumber.ax = 0
+                plumber.vx = -plumber.vx / 2
+                end -- velocity check
+                
+                --bounce off wall
+                
+
+                
+              end -- y axis check 
+              if (plumber.y + plumber.h) >= v.y and plumber.vy >= 0 then 
+                plumber.y =  v.y - (plumber.h)
+                plumber.botObs = true
+                plumber.vy = 0
+                plumber.jumps = 1
+                if plumber.crouch then 
+                     window.location:replace(v.link)
+                end --crouch check end
+              end --set to floor              
+           end -- x axis boundary check end        
+          end -- loop end
+        end --function end
 
         --char should happen every frame and not leave frame
         function charUpdate()
         --movement calculations
+            
           plumber.vx = plumber.ax + plumber.vx
           plumber.vy = plumber.ay + plumber.vy
+          if plumber.botObs then 
+            plumber.vy = 0
+          end
+         
           if plumber.vx > plumber.maxspeed then plumber.vx = plumber.maxspeed end
           if plumber.vx < plumber.maxspeed*-1 then plumber.vx = plumber.maxspeed*-1 end
-          if plumber.vy > plumber.maxspeed then plumber.vy = plumber.maxspeed end
+          --if plumber.vy > plumber.maxspeed then plumber.vy = plumber.maxspeed end
+         --check collision
+            collision()
           plumber.x = plumber.x + plumber.vx
           plumber.y = plumber.y + plumber.vy
 
@@ -230,7 +247,7 @@
             if plumber.w < 10 then
               plumber.w = 10
             else 
-              plumber.w = canvas.width / 20
+              plumber.w = canvas.width / 25
             end
           end
           --left border
@@ -243,24 +260,29 @@
           end
 
           --bottom border hits the floor and resets double jump
-          if plumber.y + plumber.h + 1 > canvas.height then
-            plumber.y = canvas.height - (plumber.h + 1)
+          if plumber.y + plumber.h + 3 > canvas.height then
+            plumber.y = canvas.height - plumber.h
             plumber.ay = 0
-            plumber.jumps = 2
+            plumber.jumps = 1
+            plumber.botObs = false
+          else
+          --gravity
+            plumber.ay = 1.2
+            plumber.botObs = false
           end
-        
         end
 
         function moveChar()
+
         --if 'a' then acc left
-          if aKeyDown then
+          if aKeyDown  then
             plumber.ax = -1
         --id 'd' then acc right
           elseif dKeyDown then
             plumber.ax = 1
           else 
             --bring the player to a halt
-            plumber.ax = plumber.ax / 4
+            plumber.ax = plumber.ax / 4.5
             if math.abs(plumber.ax) < 0.0001 then 
               plumber.vx = 0
               plumber.ax = 0
@@ -273,25 +295,21 @@
           else
             plumber.crouch = false
           end
-
+          --jump
           if wKeyDown and plumber.jumps > 0 then
             plumber.ay = -(5)
             plumber.vy = -(plumber.h / 4)
             plumber.jumps = plumber.jumps - 1
-          else 
-          --gravity
-            plumber.ay = 1
           end
         end
 
         function contUpdate()
-            window.document:getElementById("input").textContent = input
             moveChar()
             charUpdate()
             ctx:clearRect(0, 0, canvas.width, canvas.height)
             window:drawsq(plumber.x, plumber.y, plumber.w, plumber.h, "#FF00FF")
             mapping_func()
-            ctx:fillText("Move with wasd", 10, 15)
+            ctx:fillText("Move with W A S D, crouch on pipe to follow path", 10, 25)
         end
 
         function set_time()
@@ -303,11 +321,10 @@
         end
 
         --game will start on click
-        function game_start() 
+        function game_start()
             if not running then
                 resize_canvas()
                 running = true
-                keyUpdate()
                 print("rununing set to true")
                 return
             else

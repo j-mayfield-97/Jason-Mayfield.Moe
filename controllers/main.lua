@@ -1,7 +1,8 @@
 local main = {}
 
 function main.index(page)
-    page:render('index')
+    page.theme = 'nav_game2d'
+    page:render('test')
 end
 
 function main.site(page)
