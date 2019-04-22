@@ -41,9 +41,17 @@
         </div>
          <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
           <span id="openNavBut" style="font-size:30px;cursor:pointer;padding-right: 120px" >&#9776; Menu</span>
-          <h1> Jason Mayfield </h1> 
-           
+          <h1> Jason Mayfield </h1>            
         </nav>
+<style type="text/css">
+ .topcorner{
+   position:absolute;
+   top:0;
+   right:0; 
+  }
+</style>
+        <div class="topcorner"><a href ="https://github.com/j-mayfield-97"><img src="../../assets/img/github.png"  width="90" height="90" ></a></div>
+
 
       <?lua@client
         --side navbar script

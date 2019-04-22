@@ -20,7 +20,13 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
   </head>
-
+<style type="text/css">
+ .topcorner{
+   position:absolute;
+   top:0;
+   right:0;
+  }
+</style>
   <body>
 
     <!-- Wrap all page content here -->
@@ -39,7 +45,7 @@
         </div>
          <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
           <span id="openNavBut" style="font-size:30px;cursor:pointer;padding-right: 120px" >&#9776; Menu</span>
-           
+           <h1> Jason Mayfield </h1> 
         </nav>
 
         <div class="page-header" id="heading">
@@ -47,6 +53,8 @@
             Navigate with Menu Button in the corner OR navigate with the game if you have a keyboard.
           </p>
         </div>
+
+        <div class="topcorner"><a href ="https://github.com/j-mayfield-97"><img src="../../assets/img/github.png"  width="90" height="90" ></a></div>
 
         <canvas id = "canvas" width="100" height="100" style="border:5px solid #000000; background-color: #f1f1f1;">
         </canvas>
