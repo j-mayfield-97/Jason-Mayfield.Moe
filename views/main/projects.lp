@@ -7,7 +7,7 @@
     will have to do.
 </p>
         <div style=" width: 40%; padding: 20px; display: inline-block;">
-            <img src="../../assets/img/Capture.png" align="center" style=" width:70%; height:70%" >
+            <img src="../../assets/img/Capture.PNG" align="center" style=" width:70%; height:70%" >
             <p align="center">
                 This is the first C++ project I've worked on. A post on Stack Exchange suggested my first game be no more complicated than Pong.
                 That seemed like a good first project. It introduced my to many of concepts, and
@@ -18,7 +18,7 @@
         </div>
 
         <div style=" width: 40%; padding: 20px; display: inline-block;">
-            <img src="../../assets/img/Capture1.png" align="center" style=" width:90%; height:90%" >
+            <img src="../../assets/img/Capture1.PNG" align="center" style=" width:90%; height:90%" >
             <p align="center">
                 This project, which is still very much in early development, is meant to be a Deck-Building, Monster-Collecting, Rouge-Lite
                 Development on this game has been a bit harder than I initially thought it'd be. There's a saving feature, randomized map and item builders,
@@ -29,7 +29,7 @@
         </div>
         
         <div style=" width: 40%; padding: 20px; display: inline-block;">
-            <img src="../../assets/img/Capture3.png" align="center" style=" width:90%; height:90%" >
+            <img src="../../assets/img/Capture3.PNG" align="center" style=" width:90%; height:90%" >
             <p align="center">
                 Jason-Mayfield.Moe, this website, is a project in itself. This is my first Lua project and my first web deployment.
                 I go into more detail in <a href="/?r=main/site">Web Dev & Tools</a>, but in short this is how I've challenged myself to get 
