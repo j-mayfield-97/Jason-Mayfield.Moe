@@ -15,14 +15,14 @@
 	<code>Sailor</code> project caught my interest because it was based on <code>Lua</code> and had a very quick learning curve.
 	On top of being named after <a href="https://www.viz.com/sailor-moon">Sailor Moon <i style="text-muted"> (something I enjoy immensely)</i></a>
 	inspired me. <code>Sailor</code> by default also uses <code>Starlight</code> which parses <code>Lua</code> then precompiles <code>Lua</code> scripts to <code>JS</code>;
-	allowing me to just write <code>Lua</code> for the browser. I'm also using <code>Bootstrap</code> as it seemed
-	really helpful for front-end. I'd be happy to answer any other questions about the site.
+	allowing me to just write <code>Lua</code> for the browser. <code>Luajit</code>(which runs faster than JS and Lua) is running an <code>Xavante</code> server.
+	I'm also using <code>Bootstrap</code> as it seemed really helpful for front-end. I'd be happy to answer any other questions about the site.
 </p>
 
 <p>
 	<h2>Update:</h2> Though the development of this site has been a fun challenge for me, I would not recommend that
 	anyone else develop using these tools. The time to iterate on the scripting in <code>Lua</code> is just way too long.
-	I'm also not aware of a way to debug the Lua client-side as it runs the site. If this were not a personal challenge I gave
+	I'm also not aware of a way to debug the <code>Lua</code> client-side as it runs the site. If this were not a personal challenge I gave
 	myself, there's no way I would have a sustainable development cycle. There's a variety of other tools with more
 	documentation to have a website up and running almost immediately. I have definitely learned a lot about Lua and web
 	development through this challenge though, so it's already worth it.

@@ -128,16 +128,19 @@
 
         local map = {
           pipes = {
-            a = {ord = 1, x = 0, y = 1, w = 1, h = 1, col = "#00FF00", link="/?r=main/resume", text="resume"},
-            b = {ord = 2, x = 1, y = 1, w = 1, h = 1, col = "#00DF00", link="/?r=main/about", text="about"},
-            c = {ord = 3, x = 2, y = 1, w = 1, h = 1, col = "#00BF00", link="/?r=main/site", text="site"},
+            a = {ord = 1, x = 0, y = 1, w = 1, h = 1, col = "#007F00", link="/?r=main/resume", text="resume"},
+            b = {ord = 2, x = 1, y = 1, w = 1, h = 1, col = "#009F00", link="/?r=main/about", text="about"},
+            c = {ord = 3, x = 2, y = 1, w = 1, h = 1, col = "#007F00", link="/?r=main/site", text="site"},
             d = {ord = 4, x = 3, y = 1, w = 1, h = 1, col = "#009F00", link="/?r=main/contact", text="contact"},
             e = {ord = 5, x = 4, y = 1, w = 1, h = 1, col = "#007F00", link="/?r=main/projects", text="projects"}
           },
           blocks = {
-            a = {ord = 1, x = 1, y = 1, w = 1, h = 1, col = "#FFFF00"},
-            b = {ord = 2, x = 1, y = 1, w = 1, h = 1, col = "#FFFF00"}
-          }
+            a = {ord = 1, x = 1, y = 1, w = 1, h = 1, col = "#B55E0C"},
+            b = {ord = 2, x = 1, y = 1, w = 1, h = 1, col = "#B55E0C"}
+          },
+          bg = {x = 0, y = 0, w = canvas.width, h = canvas.height, col = "#7FB0FF"},
+          floor = {x = 0, y = canvas.height*(9/10), w = canvas.height/10, h = canvas.height/10, col = "#B55E0C"},
+          cloud = {x = 0, y = canvas.height*(3/10), w = canvas.height/10, h = canvas.height/10, col = "#F1F1F1"}
         }
 
         local plumber = { 
@@ -158,27 +161,47 @@
           botObs = false, dwall = 0,
           botHeight = canvas.height
         } 
+        --update and draw cloud
+        function cloud_func()
+          map.cloud.x = map.cloud.x - 1
+          if (map.cloud.x + map.cloud.w < 0) then
+            map.cloud.x = canvas.width
+          end
+          ctx.fillStyle = map.cloud.col
+          ctx:fillRect(map.cloud.x, map.cloud.y, map.cloud.w, map.cloud.h)
+          ctx:fillRect(map.cloud.x + map.cloud.w -7, map.cloud.y + map.cloud.h/2 -7, map.cloud.w/3, map.cloud.h/3)
+          ctx:fillRect(map.cloud.x + map.cloud.w/2 +10, map.cloud.y +  map.cloud.h -5, map.cloud.w/2, map.cloud.h/2)
+          ctx:fillRect(map.cloud.x - 10, map.cloud.y - 10, map.cloud.w /5, map.cloud.h/2)
+          ctx:fillRect(map.cloud.x + 10, map.cloud.y + map.cloud.h + 7, map.cloud.w /3, map.cloud.h/2)
+          ctx:fillRect(map.cloud.x + map.cloud.w/2, map.cloud.y - map.cloud.h/4, map.cloud.w/4, map.cloud.h/4)
+          ctx.fillStyle = "#000000"
+        end
 
         function mapping_func()
           --text is set here from a previous function
           ctx.font = "25px Arial"
-          --print(map.pipes.a.x, map.pipes.b.x, map.pipes.c.x, map.pipes.d.x, map.pipes.e.x)
-          --[[for k, v in pairs(map.blocks) do 
-            v.w = canvas.width / 20
-            v.h = v.w
-            v.x = canvas.width / 2
-            v.y = canvas.height / 2
-            window:drawsq(v.x, v.y, v.w, v.h, v.col)
-            ctx:fillText("coin", v.x, v.y)
-          end ]]--
+          --draw background
+          window:drawsq(map.bg.x, map.bg.y, map.bg.w, map.bg.h, map.bg.col)
+          window:drawsq(map.floor.x, map.floor.y, map.floor.w, map.floor.h, map.floor.col)
+          cloud_func()
+
           --loop through pipes and place them out and draw
           for k, v in pairs(map.pipes) do 
             if resized then 
               v.w = canvas.width / 20
-              v.h = canvas.height / 5
+              v.h = canvas.height / 3
               v.x = (canvas.width * v.ord ) / 6
               v.y = canvas.height - v.h
+
+              map.bg.w = canvas.width
+              map.bg.h = canvas.height
+              map.floor.y = canvas.height * (9/10)
+              map.floor.w = canvas.width
+              map.floor.h = canvas.height / 10
+              map.cloud.w = canvas.width / 10
+              map.cloud.h = canvas.height / 10
             end
+            
             window:drawsq(v.x, v.y, v.w, v.h, v.col)
             ctx:fillText(v.text, v.x - 20 , v.y - (26 * ((v.ord % 2)+1)))
           end
@@ -195,27 +218,24 @@
 
                 if plumber.vx > 0 then 
                   plumber.rightObs = true
-                  plumber.x = v.x - plumber.w
+                  plumber.x = v.x - plumber.w -1
                   plumber.ax = 0
-                  plumber.vx = -plumber.vx / 2
+                  plumber.vx = 0
                 elseif plumber.vx < 0 then
                   plumber.leftObs = true 
-                  plumber.x = v.x + v.w
+                  plumber.x = v.x + v.w + 1
                   plumber.ax = 0
-                plumber.vx = -plumber.vx / 2
+                  plumber.vx = 0
                 end -- velocity check
                 
                 --bounce off wall
-                
-
-                
               end -- y axis check 
               if (plumber.y + plumber.h) >= v.y and plumber.vy >= 0 then 
-                plumber.y =  v.y - (plumber.h)
+                --plumber.y =  v.y - (plumber.h)
                 plumber.botObs = true
                 plumber.vy = 0
                 plumber.jumps = 1
-                if plumber.crouch then 
+                if plumber.crouch and plumber.y < v.y then 
                      window.location:replace(v.link)
                 end --crouch check end
               end --set to floor              
@@ -237,7 +257,8 @@
           if plumber.vx < plumber.maxspeed*-1 then plumber.vx = plumber.maxspeed*-1 end
           --if plumber.vy > plumber.maxspeed then plumber.vy = plumber.maxspeed end
          --check collision
-            collision()
+          collision()
+
           plumber.x = plumber.x + plumber.vx
           plumber.y = plumber.y + plumber.vy
 
@@ -268,9 +289,10 @@
           end
 
           --bottom border hits the floor and resets double jump
-          if plumber.y + plumber.h + 3 > canvas.height then
-            plumber.y = canvas.height - plumber.h
+          if plumber.y + plumber.h + 3 > (canvas.height*(9/10)) then
+            plumber.y = (canvas.height*(9/10)) - plumber.h
             plumber.ay = 0
+            plumber.vy = 0
             plumber.jumps = 1
             plumber.botObs = false
           else
@@ -315,9 +337,9 @@
             moveChar()
             charUpdate()
             ctx:clearRect(0, 0, canvas.width, canvas.height)
-            window:drawsq(plumber.x, plumber.y, plumber.w, plumber.h, "#FF00FF")
             mapping_func()
-            ctx:fillText("Move with W A S D, crouch on pipe to follow path", 10, 25)
+            window:drawsq(plumber.x, plumber.y, plumber.w, plumber.h, "#DD0022")
+            ctx:fillText("Move with W A S D - Crouch on pipe to follow path", 10, 25)
         end
 
         function set_time()

@@ -7,13 +7,26 @@
     will have to do.
 </p>
         <div style=" width: 40%; padding: 20px; display: inline-block;">
-            <img src="../../assets/img/Capture.PNG" align="center" style=" width:70%; height:70%" >
+            <img src="../../assets/img/spty.png" align="center" style=" width:45%; height:45%" >
+            <img src="../../assets/img/faceapi.png" align="center" style=" width:45%; height:45%" >
             <p align="center">
-                This is the first C++ project I've worked on. A post on Stack Exchange suggested my first game be no more complicated than Pong.
-                That seemed like a good first project. It introduced my to many of concepts, and
-                Simple Direct Library SDL, which as the name suggest is an easy to understand ,
-                set of tools to help put together interactive apps. It manages things like window creation,
-                key inputs, and sound. Pretty nifty for beginning game development.
+                This is a project for my Software Engineering class. It was my first collaborative project with two teammates.
+                It was also my first web and Javascript project. Our team decided we wanted to make an app that would use your
+                webcam to track your facial expressions while you listened to a Spotify playlist. The Spotify API adds songs to 
+                the playlist based on your reactions. We used a MERN stack (Mongo DB, Express, React, Node). One of the hardest
+                parts was deciding on that the project would be. The other thing that was really difficult was trying to get the
+                webcam to send the image to the server so it could send the emotions to the Microsoft API.
+            </p>
+        </div>
+
+        <div style=" width: 40%; padding: 20px; display: inline-block;">
+            <img src="../../assets/img/Capture4.PNG" align="center" style=" width:90%; height:90%" >
+            <p align="center">
+                This is a project for my Computer Graphics class. The objective was to create a vivarium with predators,
+                prey, and food for the prey. Each works with simple behavior like running away from predator, and moving towards food.
+                This was programmed using JOGL, an OpenGL library for Java. I used simple 3d shapes to make the fish,
+                the sharks, and the food. I had to initialize hitboxes and collisions along with the behaviors for the
+                creatures. This project really fortified my understanding of OpenGL.
             </p>
         </div>
 
@@ -39,7 +52,19 @@
             </p>
         </div>
 
+        <div style=" width: 40%; padding: 20px; display: inline-block;">
+            <img src="../../assets/img/Capture.PNG" align="center" style=" width:70%; height:70%" >
+            <p align="center">
+                This is the first C++ project I've worked on. A post on Stack Exchange suggested my first game be no more complicated than Pong.
+                That seemed like a good first project. It introduced my to many of concepts, and
+                Simple Direct Library SDL, which as the name suggest is an easy to understand ,
+                set of tools to help put together interactive apps. It manages things like window creation,
+                key inputs, and sound. Pretty nifty for beginning game development.
+            </p>
+        </div>
+
+
     <p >
-        Many more projects to come! I always want to learn and create.
+        Many more projects to come! I always want to learn and create. You can find all my code on my Github.
     </p>
 
