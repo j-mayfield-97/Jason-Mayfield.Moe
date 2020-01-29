@@ -53,6 +53,17 @@
         </div>
 
         <div style=" width: 40%; padding: 20px; display: inline-block;">
+            <img src="../../assets/img/Map_Name.png" align="center" style=" width:70%; height:70%" >
+            <p align="center">
+                Over a summer I was looking at a short video online where a person took a bucket of dice and poured it over a board -
+                the outlining of the dice where they landed made a map for their dnd campaign. I was very inspired by this, it seemed like
+                it seemed like such a great idea. Theres two versions of the program. The first makes a singular map. The sencond makes a 
+                number of maps specified by the user. It was also an oppurtunity to experiement with Lua modules for images and gui. 
+                The gui is a bit dated-looking but I enjoy that, personally.
+            </p>
+        </div>
+
+        <div style=" width: 40%; padding: 20px; display: inline-block;">
             <img src="../../assets/img/Capture.PNG" align="center" style=" width:70%; height:70%" >
             <p align="center">
                 This is the first C++ project I've worked on. A post on Stack Exchange suggested my first game be no more complicated than Pong.
@@ -65,6 +76,6 @@
 
 
     <p >
-        Many more projects to come! I always want to learn and create. You can find all my code on my Github.
+        Many more projects to come! I always want to learn and create. You can find all my code on my Github. (link at the top right)
     </p>
 

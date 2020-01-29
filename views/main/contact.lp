@@ -20,8 +20,3 @@
   <button type="button" class="close" data-dismiss="alert">&times;</button>
 <strong>Linkden : </strong> <a href="https://www.linkedin.com/in/jason-mayfield-46642616b/" class="alert-link">My Linkden</a><br> 
 </div>
-
-<div class="alert alert-dismissible alert-danger">
-  <button type="button" class="close" data-dismiss="alert">&times;</button>
-  <address><strong>Gmail : </strong> <a href="mailto:mayjay18@gmail.com" class="alert-link">mayjay18@gmail.com</a><br> </address>
-</div>
