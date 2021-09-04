@@ -7,4 +7,4 @@ I would never describe myself as a web dev , but I'm giving it my best try. Ther
 
 Hopefully this site will be memorable to someone hiring.
 
-Now  [mayfield.moe](http://www.mayfield.moe/)
+Now  [mayfield.moe](http://mayfield.moe/)
