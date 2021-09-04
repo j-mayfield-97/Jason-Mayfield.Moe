@@ -28,9 +28,5 @@ function main.coming(page)
     page:render('coming')
 end
 
-function main.gify(page)
-    page.theme = 'geo'
-    page:render('gify', {msg = "Play with Flowy!"})
-end
 
 return main

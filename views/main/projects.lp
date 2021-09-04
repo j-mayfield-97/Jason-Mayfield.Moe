@@ -1,6 +1,6 @@
 <h1 align="center">Projects</h1>
 <p align="center">
-    Every single project is a learning experience and I'm always progressing as a dev.
+    Every single project is a learning experience and I'm always progressing as a developer.
 </p>
 <p align="center">
     I plan on making videos to demonstrate my projects in the future when I have more time but for now screen grabs
@@ -27,6 +27,18 @@
                 This was programmed using JOGL, an OpenGL library for Java. I used simple 3d shapes to make the fish,
                 the sharks, and the food. I had to initialize hitboxes and collisions along with the behaviors for the
                 creatures. This project really fortified my understanding of OpenGL.
+            </p>
+        </div>
+
+        <div style=" width: 40%; padding: 20px; display: inline-block;">
+            <img src="../../assets/img/fptpt2.png" align="center" style=" width:90%; height:90%" >
+            <a href="https://mayfield-dev.itch.io/flower-pota-pota" align="center">Itch.io Link</a>
+            <p align="center">
+                First published game. Developed fully independently in Unity. The game itself is a plant watering puzzle game. 
+                Plant a seed, fill the watering can, and pour. It's also a union of my art, game design and coding.
+                This project was mostly a way for me to get aquainted with C# and Unity. Getting used to the workflow took some time
+                but after a week or so things started clicking into place. Publishing Windows/Mac/Linux versions to Itch.io and Github
+                was also a real learning experience in using Bash. I really look forward to doing more. 
             </p>
         </div>
 

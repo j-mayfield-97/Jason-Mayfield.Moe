@@ -35,13 +35,12 @@
           <a href="/?r=main/site">Web Dev & Tools</a>
           <a href="/?r=main/resume">Resume</a>
           <a href="/?r=main/projects">Projects</a>
-          <a href="/?r=main/gify">Gify</a>
           <a href="/?r=main/contact">Contact</a>
           <a href="/?r=main/test">Test</a>
         </div>
          <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
           <span id="openNavBut" style="font-size:30px;cursor:pointer;padding-right: 120px" >&#9776; Menu</span>
-          <h1> Jason Mayfield </h1>            
+          <h1 class="name"> Jason Mayfield </h1>            
         </nav>
 <style type="text/css">
  .topcorner{
@@ -60,21 +59,28 @@
         cb = window.document:getElementById("mySidenav")
 
        function openNav() 
-        cb.style.width = "250px"
-        print('open button hit')
+          cb.style.width = "250px"
+          print('open button hit')
         end
 
        function closeNav() 
-        cb.style.width = "0"
-        print('close button hit')
+          cb.style.width = "0"
+          print('close button hit')
         end
 
         function init()
-        ob:addEventListener('click', openNav)
-        cb:addEventListener('click', closeNav)
+          ob:addEventListener('click', openNav)
+          cb:addEventListener('click', closeNav)
         end
         
         init()
+
+        function cycle_color()
+          math.randomseed(os.time())
+          name = window.document:getElementByClass("name")
+          name.style.color =  "#920000"
+        end
+
       ?>
      
 

@@ -39,7 +39,6 @@
           <a href="/?r=main/resume">Resume</a>
           <a href="/?r=main/projects">Projects</a>
           <a href="/?r=main/site">Web Dev & Tools</a>
-          <a href="/?r=main/gify">Gify</a>
           <a href="/?r=main/contact">Contact</a>
           <a href="/?r=main/test">Test</a>
         </div>
